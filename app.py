@@ -1,6 +1,7 @@
 """
 Streamlit app for Third-Party Vendor Bot with Galileo integration
 """
+import os
 import time
 import uuid
 
@@ -13,7 +14,18 @@ from langchain_core.messages import AIMessage, HumanMessage
 
 
 # Load environment variables
+# For local development, use .env file
+# For Streamlit Cloud deployment, use secrets.toml
 load_dotenv()
+
+# Set environment variables from Streamlit secrets if running on Streamlit Cloud
+if hasattr(st, 'secrets'):
+    try:
+        for key, value in st.secrets["secrets"].items():
+            os.environ[key] = str(value)
+    except KeyError:
+        # No secrets section found, continue with .env file
+        pass
 
 
 def display_chat_history():

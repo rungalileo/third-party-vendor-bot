@@ -32,7 +32,7 @@ def get_vendor_agent(system_prompt: str = None) -> CompiledStateGraph:
     
     # Create the LLM with vendor tools
     llm_with_vendor_tools = ChatOpenAI(
-        model="gpt-4o-mini",
+        model="gpt-4.1",
         name="Vendor Assistant"
     ).bind_tools(VENDOR_TOOLS)
 

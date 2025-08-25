@@ -24,7 +24,7 @@ class RAGSystem:
         Args:
             index_name: Pinecone index name (required)
             namespace: Pinecone namespace (required)
-            model: LLM model name (e.g., "gpt-4o-mini", "gpt-4")
+            model: LLM model name (e.g., "gpt-4o-mini", "gpt-4.1")
             description: Description of the knowledge base
         """
         if not index_name:
@@ -127,7 +127,7 @@ _rag_cache = {}
 def get_rag_system(
     index_name: str = None,
     namespace: str = None,
-    model: str = "gpt-4o-mini",
+    model: str = "gpt-4.1",
     description: str = "Knowledge base",
 ) -> RAGSystem:
     """

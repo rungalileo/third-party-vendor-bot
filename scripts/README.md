@@ -19,16 +19,16 @@ PINECONE_INDEX_NAME=your_pinecone_index_name_here
 Run the setup script to load company directory documents into Pinecone:
 
 ```bash
-cd scripts
-python setup_pinecone.py
+# From the project root directory
+python scripts/setup_pinecone.py
 ```
 
 This script will:
-- Load all markdown files from the `company_directory` folder
-- Chunk the documents appropriately
-- Create a Pinecone index (if it doesn't exist)
-- Upload the document embeddings to Pinecone
-- Test the retrieval functionality
+- Load all markdown and text files from the `company_directory` folder
+- Chunk the documents using semantic separators (headers, paragraphs)
+- Create a Pinecone serverless index (if it doesn't exist) with 3072 dimensions for text-embedding-3-large
+- Upload the document embeddings to Pinecone using the "company-directory" namespace
+- Test the retrieval functionality with a sample query
 
 ### 3. Use the RAG System
 
@@ -39,6 +39,7 @@ from rag_tool import get_rag_system
 
 # Create RAG system instance (uses existing vectors)
 rag_system = get_rag_system(
+    index_name=None,  # Uses PINECONE_INDEX_NAME from environment
     namespace="company-directory",
     description="Company Directory Knowledge Base"
 )
@@ -48,20 +49,3 @@ response = rag_system.search("What security consulting services are available?")
 print(response)
 ```
 
-## Key Changes
-
-The updated RAG system:
-- **No longer loads documents each time**: Documents are pre-loaded into Pinecone
-- **Uses environment variables**: `PINECONE_INDEX_NAME` specifies which index to use
-- **Faster initialization**: No document processing during runtime
-- **Better resource management**: Avoids crowding the vector database with duplicate embeddings
-
-## Testing
-
-You can test the setup using the provided test script:
-
-```bash
-python test_rag_system.py
-```
-
-This will verify that the RAG system can connect to the existing vectors and retrieve relevant information.
