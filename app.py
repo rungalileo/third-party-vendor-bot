@@ -132,11 +132,6 @@ def orchestrate_streamlit_and_get_user_input(
     if "session_id" not in st.session_state:
         session_id = str(uuid.uuid4())[:10]
         st.session_state.session_id = session_id
-        try:
-            galileo_context.start_session(name="Third-Party Vendor Bot", external_id=session_id)
-        except Exception as e:
-            st.error(f"Failed to start Galileo session: {str(e)}")
-            st.stop()
         # Add welcome message with clear next steps
         welcome_message = AIMessage(content="""Welcome to the Third-Party Vendor Application Portal.
 
@@ -169,6 +164,14 @@ Please begin by providing your company's legal name and country of incorporation
 
 def process_input_for_simple_app(user_input: str | None):
     if user_input:
+        # Create Galileo session only when user actually interacts
+        if "galileo_session_started" not in st.session_state:
+            try:
+                galileo_context.start_session(name="Third-Party Vendor Bot", external_id=st.session_state.session_id)
+                st.session_state.galileo_session_started = True
+            except Exception as e:
+                st.warning(f"Monitoring unavailable: {str(e)}")
+                st.session_state.galileo_session_started = False
         # Add user message to chat history
         user_message = HumanMessage(content=user_input)
         st.session_state.messages.append({"message": user_message, "agent": "user"})
