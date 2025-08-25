@@ -205,20 +205,20 @@ def vendor_agent_app():
     # Add progress tracker to sidebar
     with st.sidebar:
         st.header("📋 Application Progress")
-        if "session_id" in st.session_state:
-            completed, total = show_onboarding_progress(st.session_state.session_id)
-            
-            # Add some helpful information
-            st.divider()
-            st.subheader("Required Information:")
-            st.write("1. 🏢 Company name & country")
-            st.write("2. 📋 Compliance certifications") 
-            st.write("3. 🔐 Data access requirements")
-            
-            if completed == total:
-                st.success("🎉 Application Complete!")
-        else:
-            st.info("Start a session to see progress")
+        
+        # Always show progress (use session_id if available, empty string if not)
+        session_id = st.session_state.get("session_id", "")
+        completed, total = show_onboarding_progress(session_id)
+        
+        # Add some helpful information
+        st.divider()
+        st.subheader("Required Information:")
+        st.write("1. 🏢 Company name & country")
+        st.write("2. 📋 Compliance certifications") 
+        st.write("3. 🔐 Data access requirements")
+        
+        if completed == total:
+            st.success("🎉 Application Complete!")
     
     user_input = orchestrate_streamlit_and_get_user_input(
         "🤖 Third-Party Vendor Onboarding Assistant",
