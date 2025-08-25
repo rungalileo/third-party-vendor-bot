@@ -1,6 +1,6 @@
 # Third-Party Vendor Onboarding Bot
 
-A comprehensive demo showcasing AI agent monitoring and observability in a real-world vendor onboarding scenario. Built with LangGraph and Streamlit, this application demonstrates how to monitor complex AI workflows with RAG capabilities using Galileo's observability platform.
+A comprehensive demo showcasing AI agent monitoring and observability in a real-world vendor onboarding scenario. Built with LangGraph and Streamlit, this application demonstrates how to monitor complex AI workflows with RAG capabilities using Galileo's observability platform. In the Galileo project, you will see the demonstration of business metrics such as Third Party Vendor Risk based on the session.
 
 ## Demo Highlights
 
@@ -62,6 +62,8 @@ GALILEO_CONSOLE_URL=your_galileo_console_url_here
 PINECONE_API_KEY=your_pinecone_api_key_here
 PINECONE_INDEX_NAME=your_pinecone_index_name_here
 ```
+* To connect to streamlit, you will need to set values in `.streamlit/secrets.toml`
+https://docs.streamlit.io/develop/api-reference/connections/secrets.toml
 
 ### 5. Set up the company database
 Before running the application, you need to set up the Pinecone vector database with company information:
@@ -79,36 +81,6 @@ streamlit run app.py
 ```
 
 The app will open in your browser at `http://localhost:8501`.
-
-## Deployment
-
-### Streamlit Cloud Deployment
-
-This application is ready for deployment on Streamlit Cloud. The secrets are configured to work seamlessly in both local development and cloud environments.
-
-#### Local Development
-- Uses `.env` file for environment variables
-- Run with `streamlit run app.py`
-
-#### Streamlit Cloud Deployment
-1. **Push to GitHub**: Ensure your code is in a GitHub repository
-2. **Connect to Streamlit Cloud**: 
-   - Go to [share.streamlit.io](https://share.streamlit.io)
-   - Connect your GitHub repository
-3. **Configure Secrets**: In the Streamlit Cloud dashboard, add your secrets:
-   ```toml
-   [secrets]
-   OPENAI_API_KEY = "your_openai_api_key_here"
-   GALILEO_API_KEY = "your_galileo_api_key_here"
-   GALILEO_PROJECT = "your_galileo_project_here"
-   GALILEO_LOG_STREAM = "your_galileo_log_stream_here"
-   GALILEO_CONSOLE_URL = "your_galileo_console_url_here"
-   PINECONE_API_KEY = "your_pinecone_api_key_here"
-   PINECONE_INDEX_NAME = "your_pinecone_index_name_here"
-   ```
-4. **Deploy**: Streamlit Cloud will automatically deploy your app
-
-**Note**: The `.streamlit/secrets.toml` file is for local reference only and is excluded from git via `.gitignore`. Use the Streamlit Cloud secrets manager for production deployment.
 
 ## Running the Demo
 
@@ -143,60 +115,9 @@ This demo showcases comprehensive AI agent monitoring capabilities through [Gali
 - **Performance analytics** including response times, token usage, and completion rates
 - **Error tracking and debugging** for failed tool calls or workflow issues
 
-### Demo Value
-- Demonstrates production-ready monitoring for complex AI workflows
-- Shows how to track business process completion (vendor onboarding steps)
-- Illustrates observability for RAG systems and vector database interactions
-- Provides visibility into session state management and data persistence
-
-## Project Structure
-
-```
-third-party-vendor-bot/
-├── app.py                      # Main Streamlit application
-├── agent.py                    # LangGraph agent with vendor onboarding workflow
-├── tools.py                    # Vendor-specific tools (company lookup, data saving)
-├── rag_tool.py                # RAG system for company database search
-├── requirements.txt           # Python dependencies
-├── env.example               # Example environment variables
-├── .streamlit/               # Streamlit configuration (git-ignored)
-│   └── secrets.toml          # Local secrets for development
-├── company_directory/        # Company information files for RAG
-│   ├── data_miners_unlimited.md
-│   ├── global_consulting_ltd.md
-│   ├── offshore_solutions_bv.md
-│   ├── quickfix_consulting.md
-│   ├── secure_data_systems.md
-│   ├── shadow_tech_enterprises.md
-│   └── tech_solutions_inc.md
-├── scripts/
-│   ├── setup_pinecone.py     # Script to initialize Pinecone with company data
-│   └── README.md            # Setup instructions
-└── README.md               # This file
-```
-
 ## Requirements
 
 - Python 3.8+
 - OpenAI API key (required)
 - Pinecone API key (required for company database)
 - Galileo API key and project configuration (optional for monitoring)
-
-## Dependencies
-
-- `streamlit`: Web application framework
-- `langchain`: LangChain framework for LLM applications
-- `langchain-openai`: OpenAI integration for LangChain
-- `langgraph`: State machine framework for agent workflows
-- `langchain-pinecone`: Pinecone vector database integration
-- `pinecone-client`: Pinecone Python client
-- `galileo`: Galileo monitoring SDK
-- `python-dotenv`: Environment variable management
-
-## Contributing
-
-Feel free to submit issues and enhancement requests!
-
-## License
-
-This project is open source and available under the MIT License.
