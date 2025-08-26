@@ -7,6 +7,6 @@ langchain-core
 langchain-openai
 langgraph
 langchain-pinecone
-pinecone-client
+pinecone
 langchain-text-splitters
 langchain-community
